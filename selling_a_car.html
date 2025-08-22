@@ -67,7 +67,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Reading activity drag-and-drop styles */
+        /* Drag-and-drop styles */
         .draggable-item {
             cursor: grab;
             user-select: none;
@@ -89,11 +89,41 @@
          .drop-zone.incorrect {
              border-color: #721c24;
         }
+        .gap-drop-zone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 70px;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border: 2px dashed #9ca3af;
+            border-radius: 0.375rem;
+            color: #9ca3af;
+        }
+        .gap-drop-zone:empty::before {
+            content: 'Drag a sentence here';
+            font-style: italic;
+        }
+        .gap-drop-zone.drag-over {
+            background-color: rgba(102, 217, 232, 0.3);
+        }
+        .gap-drop-zone.correct {
+            border-color: #155724;
+            background-color: #d4edda;
+        }
+        .gap-drop-zone.incorrect {
+            border-color: #721c24;
+            background-color: #f8d7da;
+        }
+        .sentence-item {
+            cursor: grab;
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
-    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
         <!-- Header -->
         <header class="text-center mb-6">
             <h1 class="text-3xl sm:text-4xl font-bold text-teal-800">Selling a Second-Hand Car</h1>
@@ -114,7 +144,7 @@
                     <p class="text-gray-700 leading-relaxed">
                         Selling a used car can be a good way to make some extra money, but it's not always easy. You can sell it <strong class="text-teal-600">privately</strong> to another person, or sell it to a <strong class="text-teal-600">reseller</strong> (like a car dealership). Both options have advantages and disadvantages. In this lesson, we will learn some important vocabulary and discuss common problems people face.
                     </p>
-                    <img src="https://johanka2014.github.io/cars_and_driving/classic_car.png" alt="Classic car for sale" class="mt-4 rounded-lg shadow-md mx-auto max-w-full h-auto">
+                    <img src="https://johanka2014.github.io/cars_and_driving/classic_car.png" alt="Classic car for sale" class="mt-4 rounded-lg shadow-md mx-auto max-w-lg h-auto">
                 </section>
 
                 <!-- Page 2: Vocabulary Matching -->
@@ -146,7 +176,12 @@
                 <section data-title="Activity 3" id="activity3" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
                     <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 3: Fill in the Blanks</h2>
                     <p class="text-gray-700 mb-6">Complete the sentences below using the vocabulary from Activity 1.</p>
-                    <div id="gap-fill-container" class="space-y-4"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div id="gap-fill-container" class="space-y-4"></div>
+                        <div>
+                             <img src="https://johanka2014.github.io/cars_and_driving/negotiation.png" alt="People negotiating over a car" class="rounded-lg shadow-md w-full h-full object-cover">
+                        </div>
+                    </div>
                     <div class="text-center mt-6">
                         <button onclick="checkGapFill()" class="btn bg-teal-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-teal-600">Check Answers</button>
                     </div>
@@ -156,12 +191,28 @@
                 <section data-title="Activity 4" id="activity4" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
                     <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 4: True or False?</h2>
                     <p class="text-gray-700 mb-6">Read the statements about selling a car and decide if they are true or false.</p>
-                    <div id="true-false-container" class="space-y-5"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <img src="https://johanka2014.github.io/cars_and_driving/car_wash.png" alt="A clean car being washed" class="rounded-lg shadow-md w-full h-full object-cover">
+                        </div>
+                        <div id="true-false-container" class="space-y-5"></div>
+                    </div>
                 </section>
 
-                <!-- Page 6: Reading Activity -->
+                <!-- Page 6: New Vocabulary Matching -->
                 <section data-title="Activity 5" id="activity5" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
-                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 5: Reading - Motoring Online</h2>
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 5: More Vocabulary</h2>
+                    <p class="text-gray-700 mb-6">Match these words from the reading text with their definitions.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div id="new-vocab-list" class="space-y-3"></div>
+                        <div id="new-definition-list" class="space-y-3"></div>
+                    </div>
+                     <div id="new-matching-feedback" class="mt-4 text-center font-medium"></div>
+                </section>
+
+                <!-- Page 7: Reading Activity 1 -->
+                <section data-title="Activity 6" id="activity6" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 6: Reading - Motoring Online (Part 1)</h2>
                     <p class="text-gray-700 mb-6">Read the article. Drag the explanations from the box on the right and drop them next to the paragraph they describe.</p>
                     <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
                         <div id="reading-article" class="lg:col-span-3 space-y-4"></div>
@@ -172,7 +223,20 @@
                     </div>
                 </section>
 
-                <!-- Page 7: Discussion Topics -->
+                <!-- Page 8: Reading Activity 2 -->
+                <section data-title="Activity 7" id="activity7" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 7: Reading - Motoring Online (Part 2)</h2>
+                    <p class="text-gray-700 mb-6">Choose the best sentence for each gap in the text. Drag the sentence from the box below and drop it into the correct gap.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                        <div id="gap-fill-article" class="lg:col-span-3 space-y-4 bg-white p-4 rounded-lg"></div>
+                        <div id="sentence-bank" class="lg:col-span-2 space-y-3"></div>
+                    </div>
+                     <div class="text-center mt-6">
+                        <button onclick="checkGapFillReading()" class="btn bg-teal-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-teal-600">Check Answers</button>
+                    </div>
+                </section>
+
+                <!-- Page 9: Discussion Topics -->
                 <section data-title="Discussion" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
                     <h2 class="text-2xl font-semibold text-teal-800 mb-4">Discussion & Advice</h2>
                     <p class="text-gray-700 mb-6">Discuss these questions with a partner or in a group. What advice would you give to someone selling a car for the first time?</p>
@@ -199,24 +263,22 @@
         const describingCars = [ { adjective: 'reliable', sentence: "I've had this car for 10 years without any problems. It's very <u>reliable</u>.", definition: 'able to continue to work properly' }, { adjective: 'economical', sentence: "This car is extremely <u>economical</u>. I don't need to spend too much money on petrol.", definition: 'not wasting fuel' }, { adjective: 'powerful', sentence: "This car is the world's most <u>powerful</u> car.", definition: 'having great strength' }, { adjective: 'eco-friendly', sentence: "Smart cars are very <u>eco-friendly</u> — they do not generate any harmful gas emissions.", definition: 'not harmful to the environment' }, { adjective: 'affordable', sentence: "The new Honda Civic is a very <u>affordable</u> car. It's much cheaper than similar cars in its class.", definition: 'inexpensive, reasonably priced' } ];
         const gapFillSentences = [ { sentence: "You should always check the car's official document, the ______, before buying it.", answer: 'Logbook (V5C)' }, { sentence: "Be careful of online buyers who offer too much money; it might be a ______.", answer: 'Scam' }, { sentence: "Before you agree on a price, you should try to ______ with the buyer.", answer: 'Negotiate' }, { sentence: "The car looked perfect, but a mechanic found ______ under the engine.", answer: 'Hidden damage' }, { sentence: "A car with low ______ is usually more valuable.", answer: 'Mileage' } ];
         const trueFalseQuestions = [ { statement: "You usually get more money selling to a reseller than selling privately.", answer: false, explanation: "You usually get less money from a reseller because they need to make a profit." }, { statement: "It's a good idea to clean your car before showing it to buyers.", answer: true, explanation: "A clean car looks well-maintained and is more attractive to buyers." }, { statement: "You should never let a buyer take a test drive alone.", answer: true, explanation: "It's important to go with them for security and insurance reasons." }, { statement: "The logbook (V5C) is not an important document.", answer: false, explanation: "The logbook is the legal proof of ownership and is very important." } ];
+        const newVocabulary = [ { word: 'straightforward', definition: 'easy to understand / simple' }, { word: 'haggle', definition: 'argue/negotiate' }, { word: 'trade-in', definition: 'a method of buying a new product by giving your old one as part of the payment for it' }, { word: 'browse', definition: 'look at information on the Internet' }, { word: 'handy', definition: 'useful' }, { word: 'appraisal form', definition: 'place where you can write your opinion of something' }, { word: 'pop up', definition: 'appear' }, { word: 'screen out', definition: 'filter out / remove' } ];
         const readingActivity = {
-            paragraphs: [
-                { id: 'a', text: "The Internet has transformed the car trade. Selling cars used to be a relatively straightforward business. They would then decide on a model, haggle over the price and the trade-in value of their own car, order and take delivery.", answer: 3 },
-                { id: 'b', text: "With so many of its customers using the Internet to research their planned purchases, Ford is changing the way it is spending its marketing budget. Four years ago, most of its advertising dollars went on traditional media, such as television, print and outdoor hoardings. Non-traditional forms, such as the Internet, accounted for only around 2% of the total. Now the share is 20%.", answer: 7 },
-                { id: 'c', text: "A website works like a living brochure. For example, Ford's F-150 pick-up truck, of which some 900,000 were sold last year, is shown in graphic detail. Users can check models and prices, browse through the inventory of local dealers or get a quote for the one they have designed for themselves using Ford's build-your-own option.", answer: 1 },
-                { id: 'd', text: "So why bother with dealers at all? 'The dealership is even more important than it used to be,' says Mr Sullivan, a Ford director. Besides demonstrating the product, dealers are also needed to manage the purchase and after-sales support. Moreover, they can play a big part in customising cars for buyers.", answer: 6 },
-                { id: 'e', text: "Indeed, car makers would do well to study the way people compare vehicles online. Edmunds, an online car-buying service, has found that by tracking the behaviour of website users, it can predict with considerable confidence how many cars different manufacturers will be selling four weeks hence, and where.", answer: 5 },
-                { id: 'f', text: "The company also has a good idea of what people say about different cars. Its website receives 2,000–3,000 reviews a week from buyers of new cars who fill out an online appraisal form. They also suggest improvements to future models. Edmunds is now developing new products to commercialise this information.", answer: 4 },
-                { id: 'g', text: "As the car makers have discovered, a website has become an essential part of doing business with consumers, and almost all their advertising now gives their website address. That makes a lot of sense. A typical television or print ad might get a few seconds of attention, but a website typically holds the browser's attention for two to five minutes.", answer: 2 }
-            ],
-            explanations: [
-                { id: 1, text: "how car buyers use the Internet to decide which car they want." },
-                { id: 2, text: "how much interest the Internet arouses amongst customers as opposed to other forms of advertising." },
-                { id: 3, text: "how people bought cars in the past." },
-                { id: 4, text: "how the Internet can be used for obtaining customer feedback." },
-                { id: 5, text: "how the Internet can be used for sales forecasting." },
-                { id: 6, text: "why buyers still need to speak to a salesperson before buying." },
-                { id: 7, text: "why car makers are spending increasing amounts on Internet advertising." }
+            paragraphs: [ { id: 'a', text: "The Internet has transformed the car trade. Selling cars used to be a relatively straightforward business. They would then decide on a model, haggle over the price and the trade-in value of their own car, order and take delivery.", answer: 3 }, { id: 'b', text: "With so many of its customers using the Internet to research their planned purchases, Ford is changing the way it is spending its marketing budget. Four years ago, most of its advertising dollars went on traditional media, such as television, print and outdoor hoardings. Non-traditional forms, such as the Internet, accounted for only around 2% of the total. Now the share is 20%.", answer: 7 }, { id: 'c', text: "A website works like a living brochure. For example, Ford's F-150 pick-up truck, of which some 900,000 were sold last year, is shown in graphic detail. Users can check models and prices, browse through the inventory of local dealers or get a quote for the one they have designed for themselves using Ford's build-your-own option.", answer: 1 }, { id: 'd', text: "So why bother with dealers at all? 'The dealership is even more important than it used to be,' says Mr Sullivan, a Ford director. Besides demonstrating the product, dealers are also needed to manage the purchase and after-sales support. Moreover, they can play a big part in customising cars for buyers.", answer: 6 }, { id: 'e', text: "Indeed, car makers would do well to study the way people compare vehicles online. Edmunds, an online car-buying service, has found that by tracking the behaviour of website users, it can predict with considerable confidence how many cars different manufacturers will be selling four weeks hence, and where.", answer: 5 }, { id: 'f', text: "The company also has a good idea of what people say about different cars. Its website receives 2,000–3,000 reviews a week from buyers of new cars who fill out an online appraisal form. They also suggest improvements to future models. Edmunds is now developing new products to commercialise this information.", answer: 4 }, { id: 'g', text: "As the car makers have discovered, a website has become an essential part of doing business with consumers, and almost all their advertising now gives their website address. That makes a lot of sense. A typical television or print ad might get a few seconds of attention, but a website typically holds the browser's attention for two to five minutes.", answer: 2 } ],
+            explanations: [ { id: 1, text: "how car buyers use the Internet to decide which car they want." }, { id: 2, text: "how much interest the Internet arouses amongst customers as opposed to other forms of advertising." }, { id: 3, text: "how people bought cars in the past." }, { id: 4, text: "how the Internet can be used for obtaining customer feedback." }, { id: 5, text: "how the Internet can be used for sales forecasting." }, { id: 6, text: "why buyers still need to speak to a salesperson before buying." }, { id: 7, text: "why car makers are spending increasing amounts on Internet advertising." } ]
+        };
+        const readingGapFill = {
+            text: "a. The Internet has transformed the car trade. Selling cars used to be a relatively straightforward business. 1. [GAP] They would then decide on a model, haggle over the price and the trade-in value of their own car, order and take delivery. b. With so many of its customers using the Internet to research their planned purchases, Ford is changing the way it is spending its marketing budget. Four years ago, most of its advertising dollars went on traditional media, such as television, print and outdoor hoardings. Non-traditional forms, such as the Internet, accounted for only around 2% of the total. Now the share is 20%. 2. [GAP] For instance, a click on a banner ad on a website can be traced through to the company's own website, the selection of a model, the response of a dealer and ultimately a sale. c. A website works like a living brochure. For example, Ford's F-150 pick-up truck, of which some 900,000 were sold last year, is shown in graphic detail. 3. [GAP] Users can check models and prices, browse through the inventory of local dealers or get a quote for the one they have designed for themselves using Ford's build-your-own option. d. So why bother with dealers at all? 'The dealership is even more important than it used to be,' says Mr Sullivan, a Ford director. 4. [GAP] Besides demonstrating the product, dealers are also needed to manage the purchase and after-sales support. Moreover, they can play a big part in customising cars for buyers, fitting anything from different wheels to instruments and DVD systems, all of which could make a handy contribution to profits. e. Indeed, car makers would do well to study the way people compare vehicles online. Edmunds, an online car-buying service, has found that by tracking the behaviour of website users, it can predict with considerable confidence how many cars different manufacturers will be selling four weeks hence, and where. 5. [GAP] f. The company also has a good idea of what people say about different cars. Its website receives 2,000–3,000 reviews a week from buyers of new cars who fill out an online appraisal form. They also suggest improvements to future models. 6. [GAP] Edmunds is now developing new products to commercialise this information. g. As the car makers have discovered, a website has become an essential part of doing business with consumers, and almost all their advertising now gives their website address. That makes a lot of sense. A typical television or print ad might get a few seconds of attention, but a website typically holds the browser's attention for two to five minutes. 7. [GAP] This makes it rather puzzling that many companies devote only around 2% of their advertising budget to it.",
+            sentences: [
+                { id: 'A', text: "If there is anything wrong with a vehicle, complaints will soon pop up here.", answer: 6 },
+                { id: 'B', text: "In Britain, the Internet is now the third most popular media form.", answer: 7 },
+                { id: 'C', text: "It uses special software in order to screen out car enthusiasts who are just looking for information.", answer: 5 },
+                { id: 'D', text: "Nowadays, dealers report, there are few people who visit their showrooms without a recommendation from a satisfied customer.", answer: null }, // Extra sentence
+                { id: 'E', text: "One of the attractions of the Internet is that its effects can be measured.", answer: 2 },
+                { id: 'F', text: "People want to touch the vehicle, to smell the inside, to kick the tyres and take it for a test drive.", answer: 4 },
+                { id: 'G', text: "There was even a series of videos in which rival models were cut apart and their components compared, to support their claim that theirs is the toughest.", answer: 3 },
+                { id: 'H', text: "Customers might see an advertisement in a newspaper, perhaps pick up a brochure, visit a couple of dealers.", answer: 1 }
             ]
         };
         
@@ -250,47 +312,77 @@
         // --- ACTIVITY 4: TRUE/FALSE ---
         function setupTrueFalse() { const container = document.getElementById('true-false-container'); container.innerHTML = ''; trueFalseQuestions.forEach((item, index) => { const questionHtml = ` <div class="p-4 bg-white rounded-lg border-2 border-gray-200"> <p class="mb-3 text-gray-800">${index + 1}. ${item.statement}</p> <div class="flex items-center space-x-4"> <button onclick="checkTrueFalse(${index}, true)" class="btn bg-green-500 text-white font-semibold py-1 px-5 rounded-md hover:bg-green-600">True</button> <button onclick="checkTrueFalse(${index}, false)" class="btn bg-red-500 text-white font-semibold py-1 px-5 rounded-md hover:bg-red-600">False</button> </div> <div id="tf-feedback-${index}" class="mt-3 text-sm font-medium"></div> </div> `; container.innerHTML += questionHtml; }); }
         function checkTrueFalse(index, userAnswer) { const question = trueFalseQuestions[index]; const feedbackEl = document.getElementById(`tf-feedback-${index}`); const buttons = feedbackEl.previousElementSibling.querySelectorAll('button'); buttons.forEach(button => button.disabled = true); if (userAnswer === question.answer) { feedbackEl.textContent = `Correct! ${question.explanation}`; feedbackEl.className = 'mt-3 text-sm font-medium text-green-700'; } else { feedbackEl.textContent = `Incorrect. ${question.explanation}`; feedbackEl.className = 'mt-3 text-sm font-medium text-red-700'; } }
+        
+        // --- ACTIVITY 5: NEW VOCABULARY ---
+        let selectedNewVocab = null; let selectedNewDef = null; let correctNewMatches = 0;
+        function setupNewMatchingActivity() { const vocabList = document.getElementById('new-vocab-list'); const definitionList = document.getElementById('new-definition-list'); vocabList.innerHTML = ''; definitionList.innerHTML = ''; selectedNewVocab = null; selectedNewDef = null; correctNewMatches = 0; document.getElementById('new-matching-feedback').textContent = ''; const shuffledVocab = shuffleArray([...newVocabulary]); const shuffledDefs = shuffleArray([...newVocabulary]); shuffledVocab.forEach((item) => { const vocabDiv = document.createElement('div'); vocabDiv.textContent = item.word; vocabDiv.dataset.word = item.word; vocabDiv.className = 'match-item p-3 bg-white rounded-lg border-2 border-gray-200'; vocabDiv.onclick = () => selectNewVocab(vocabDiv); vocabList.appendChild(vocabDiv); }); shuffledDefs.forEach((item) => { const defDiv = document.createElement('div'); defDiv.textContent = item.definition; defDiv.dataset.word = item.word; defDiv.className = 'match-item p-3 bg-white rounded-lg border-2 border-gray-200'; defDiv.onclick = () => selectNewDef(defDiv); definitionList.appendChild(defDiv); }); }
+        function selectNewVocab(element) { if (element.classList.contains('correct')) return; if (selectedNewVocab) selectedNewVocab.classList.remove('selected'); selectedNewVocab = element; selectedNewVocab.classList.add('selected'); checkNewMatch(); }
+        function selectNewDef(element) { if (element.classList.contains('correct')) return; if (selectedNewDef) selectedNewDef.classList.remove('selected'); selectedNewDef = element; selectedNewDef.classList.add('selected'); checkNewMatch(); }
+        function checkNewMatch() { const feedbackEl = document.getElementById('new-matching-feedback'); if (selectedNewVocab && selectedNewDef) { if (selectedNewVocab.dataset.word === selectedNewDef.dataset.word) { selectedNewVocab.classList.remove('selected'); selectedNewDef.classList.remove('selected'); selectedNewVocab.classList.add('correct'); selectedNewDef.classList.add('correct'); selectedNewVocab.onclick = null; selectedNewDef.onclick = null; correctNewMatches++; feedbackEl.textContent = 'Correct!'; feedbackEl.className = 'mt-4 text-center font-medium text-green-600'; } else { feedbackEl.textContent = 'Not a match. Try again.'; feedbackEl.className = 'mt-4 text-center font-medium text-red-600'; selectedNewVocab.classList.add('incorrect'); selectedNewDef.classList.add('incorrect'); setTimeout(() => { if (selectedNewVocab) selectedNewVocab.classList.remove('selected', 'incorrect'); if (selectedNewDef) selectedNewDef.classList.remove('selected', 'incorrect'); selectedNewVocab = null; selectedNewDef = null; feedbackEl.textContent = ''; }, 1000); } if (correctNewMatches === newVocabulary.length) { feedbackEl.textContent = 'Excellent! You have matched all the words.'; } } }
 
-        // --- ACTIVITY 5: READING ---
-        function setupReadingActivity() {
-            const articleContainer = document.getElementById('reading-article');
-            const explanationsContainer = document.getElementById('reading-explanations');
+        // --- ACTIVITY 6: READING (PART 1) ---
+        function setupReadingActivity() { const articleContainer = document.getElementById('reading-article'); const explanationsContainer = document.getElementById('reading-explanations'); articleContainer.innerHTML = ''; explanationsContainer.innerHTML = ''; readingActivity.paragraphs.forEach(p => { const p_div = document.createElement('div'); p_div.innerHTML = ` <p class="mb-2"><strong class="mr-2">Paragraph ${p.id.toUpperCase()}:</strong>${p.text}</p> <div id="drop-zone-${p.id}" data-paragraph-id="${p.id}" class="drop-zone border-2 border-gray-400 rounded-lg p-3 bg-gray-50">Drop explanation here</div> `; articleContainer.appendChild(p_div); }); shuffleArray([...readingActivity.explanations]).forEach(e => { const e_div = document.createElement('div'); e_div.id = `explanation-${e.id}`; e_div.dataset.explanationId = e.id; e_div.textContent = e.text; e_div.draggable = true; e_div.className = 'draggable-item p-3 bg-white rounded-lg border-2 border-gray-200 shadow-sm'; explanationsContainer.appendChild(e_div); }); addDragAndDropListeners('.draggable-item', '.drop-zone'); }
+        function checkReadingAnswers() { readingActivity.paragraphs.forEach(p => { const dropZone = document.getElementById(`drop-zone-${p.id}`); dropZone.classList.remove('correct', 'incorrect'); const droppedItem = dropZone.querySelector('.draggable-item'); if (droppedItem) { const droppedId = parseInt(droppedItem.dataset.explanationId); if (droppedId === p.answer) { dropZone.classList.add('correct'); } else { dropZone.classList.add('incorrect'); } } else { dropZone.classList.add('incorrect'); } }); }
+
+        // --- ACTIVITY 7: READING (PART 2) ---
+        function setupReadingGapFillActivity() {
+            const articleContainer = document.getElementById('gap-fill-article');
+            const sentenceBank = document.getElementById('sentence-bank');
             articleContainer.innerHTML = '';
-            explanationsContainer.innerHTML = '';
+            sentenceBank.innerHTML = '';
 
-            readingActivity.paragraphs.forEach(p => {
-                const p_div = document.createElement('div');
-                p_div.innerHTML = `
-                    <p class="mb-2"><strong class="mr-2">Paragraph ${p.id.toUpperCase()}:</strong>${p.text}</p>
-                    <div id="drop-zone-${p.id}" data-paragraph-id="${p.id}" class="drop-zone border-2 border-gray-400 rounded-lg p-3 bg-gray-50">Drop explanation here</div>
-                `;
-                articleContainer.appendChild(p_div);
+            let processedText = readingGapFill.text;
+            for (let i = 1; i <= 7; i++) {
+                processedText = processedText.replace(`${i}. [GAP]`, `<div id="gap-drop-zone-${i}" data-gap-id="${i}" class="gap-drop-zone"></div>`);
+            }
+            articleContainer.innerHTML = processedText.replace(/\n/g, '<br>');
+
+            shuffleArray([...readingGapFill.sentences]).forEach(s => {
+                const s_div = document.createElement('div');
+                s_div.id = `sentence-${s.id}`;
+                s_div.dataset.sentenceId = s.id;
+                s_div.innerHTML = `<strong class="mr-2">${s.id}.</strong> ${s.text}`;
+                s_div.draggable = true;
+                s_div.className = 'sentence-item p-3 bg-white rounded-lg border-2 border-gray-200 shadow-sm';
+                sentenceBank.appendChild(s_div);
             });
 
-            shuffleArray([...readingActivity.explanations]).forEach(e => {
-                const e_div = document.createElement('div');
-                e_div.id = `explanation-${e.id}`;
-                e_div.dataset.explanationId = e.id;
-                e_div.textContent = e.text;
-                e_div.draggable = true;
-                e_div.className = 'draggable-item p-3 bg-white rounded-lg border-2 border-gray-200 shadow-sm';
-                explanationsContainer.appendChild(e_div);
-            });
-
-            addDragAndDropListeners();
+            addDragAndDropListeners('.sentence-item', '.gap-drop-zone');
         }
 
-        function addDragAndDropListeners() {
-            const draggables = document.querySelectorAll('.draggable-item');
-            const dropZones = document.querySelectorAll('.drop-zone');
+        function checkGapFillReading() {
+            for (let i = 1; i <= 7; i++) {
+                const dropZone = document.getElementById(`gap-drop-zone-${i}`);
+                dropZone.classList.remove('correct', 'incorrect');
+                const droppedItem = dropZone.querySelector('.sentence-item');
+                const correctAnswer = readingGapFill.sentences.find(s => s.answer === i);
+
+                if (droppedItem && correctAnswer) {
+                    const droppedId = droppedItem.dataset.sentenceId;
+                    if (droppedId === correctAnswer.id) {
+                        dropZone.classList.add('correct');
+                    } else {
+                        dropZone.classList.add('incorrect');
+                    }
+                } else {
+                    dropZone.classList.add('incorrect');
+                }
+            }
+        }
+
+
+        // --- GENERIC DRAG AND DROP ---
+        function addDragAndDropListeners(draggableSelector, dropZoneSelector) {
+            const draggables = document.querySelectorAll(draggableSelector);
+            const dropZones = document.querySelectorAll(dropZoneSelector);
 
             draggables.forEach(draggable => {
                 draggable.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', e.target.id);
-                    setTimeout(() => draggable.classList.add('hidden'), 0);
+                    setTimeout(() => draggable.style.opacity = '0.5', 0);
                 });
                 draggable.addEventListener('dragend', (e) => {
-                     e.target.classList.remove('hidden');
+                     e.target.style.opacity = '1';
                 });
             });
 
@@ -307,28 +399,21 @@
                     zone.classList.remove('drag-over');
                     const id = e.dataTransfer.getData('text/plain');
                     const draggable = document.getElementById(id);
-                    if (zone.children.length === 0) { // Allow only one item per zone
-                        zone.appendChild(draggable);
+                    
+                    // Logic to return item if zone is full
+                    if (zone.children.length > 0) {
+                        const existingItem = zone.children[0];
+                        const bank = document.getElementById('sentence-bank') || document.getElementById('reading-explanations');
+                        bank?.appendChild(existingItem);
                     }
-                });
-            });
-        }
+                     if (draggable.parentElement.classList.contains('gap-drop-zone') || draggable.parentElement.classList.contains('drop-zone')) {
+                        const originalZone = draggable.parentElement;
+                        originalZone.innerHTML = ''; // Clear original zone
+                    }
 
-        function checkReadingAnswers() {
-            readingActivity.paragraphs.forEach(p => {
-                const dropZone = document.getElementById(`drop-zone-${p.id}`);
-                dropZone.classList.remove('correct', 'incorrect'); // Reset classes
-                const droppedItem = dropZone.querySelector('.draggable-item');
-                if (droppedItem) {
-                    const droppedId = parseInt(droppedItem.dataset.explanationId);
-                    if (droppedId === p.answer) {
-                        dropZone.classList.add('correct');
-                    } else {
-                        dropZone.classList.add('incorrect');
-                    }
-                } else {
-                    dropZone.classList.add('incorrect'); // Mark as incorrect if empty
-                }
+                    zone.innerHTML = ''; // Clear zone before appending
+                    zone.appendChild(draggable);
+                });
             });
         }
 
@@ -340,7 +425,9 @@
             setupDescribingCarsActivity();
             setupGapFill();
             setupTrueFalse();
+            setupNewMatchingActivity();
             setupReadingActivity();
+            setupReadingGapFillActivity();
         });
     </script>
 </body>
