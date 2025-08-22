@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Selling a Second-Hand Car</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+        }
+        .activity-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .match-item {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .match-item.selected {
+            background-color: #66d9e8; /* A bright cyan for selection */
+            color: white;
+        }
+        .correct {
+            background-color: #d4edda !important; /* Light green for correct */
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .incorrect {
+            background-color: #f8d7da !important; /* Light red for incorrect */
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .feedback {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .feedback.correct { color: #155724; }
+        .feedback.incorrect { color: #721c24; }
+        
+        /* Styles for the new tab navigation */
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #0f766e; /* teal-700 */
+            transition: all 0.3s ease;
+        }
+        .nav-tab:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .nav-tab.active {
+            background-color: #14b8a6; /* teal-500 */
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-6">
+            <h1 class="text-3xl sm:text-4xl font-bold text-teal-800">Selling a Second-Hand Car</h1>
+            <p class="text-lg text-teal-700 mt-2">A lesson on vocabulary and common problems</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav id="tab-navigation" class="mb-8 p-2 bg-white/50 rounded-xl shadow-md flex flex-wrap justify-center gap-2">
+            <!-- Navigation tabs will be inserted here by JS -->
+        </nav>
+
+        <main>
+            <!-- Page Container -->
+            <div id="lesson-pages">
+                <!-- Page 1: Introduction -->
+                <section data-title="Introduction" class="lesson-page activity-card p-6 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-3">Introduction</h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        Selling a used car can be a good way to make some extra money, but it's not always easy. You can sell it <strong class="text-teal-600">privately</strong> to another person, or sell it to a <strong class="text-teal-600">reseller</strong> (like a car dealership). Both options have advantages and disadvantages. In this lesson, we will learn some important vocabulary and discuss common problems people face.
+                    </p>
+                </section>
+
+                <!-- Page 2: Vocabulary Matching -->
+                <section data-title="Activity 1" id="activity1" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 1: Vocabulary Matching</h2>
+                    <p class="text-gray-700 mb-6">Click on a word and then click on its correct definition. Good luck!</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div id="vocab-list" class="space-y-3"></div>
+                        <div id="definition-list" class="space-y-3"></div>
+                    </div>
+                     <div id="matching-feedback" class="mt-4 text-center font-medium"></div>
+                    <div class="text-center mt-6">
+                        <button onclick="resetMatchingActivity()" class="btn bg-teal-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-teal-600">Reset Activity</button>
+                    </div>
+                </section>
+                
+                <!-- Page 3: NEW Describing Cars Activity -->
+                <section data-title="Activity 2" id="activity2" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 2: Describing Cars</h2>
+                    <p class="text-gray-700 mb-6">Match the underlined adjectives in the sentences to their definitions.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div id="adj-sentence-list" class="space-y-3"></div>
+                        <div id="adj-definition-list" class="space-y-3"></div>
+                    </div>
+                     <div id="adj-matching-feedback" class="mt-4 text-center font-medium"></div>
+                </section>
+
+                <!-- Page 4: Fill in the Blanks -->
+                <section data-title="Activity 3" id="activity3" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 3: Fill in the Blanks</h2>
+                    <p class="text-gray-700 mb-6">Complete the sentences below using the vocabulary from Activity 1.</p>
+                    <div id="gap-fill-container" class="space-y-4"></div>
+                    <div class="text-center mt-6">
+                        <button onclick="checkGapFill()" class="btn bg-teal-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-teal-600">Check Answers</button>
+                    </div>
+                </section>
+
+                <!-- Page 5: True or False? -->
+                <section data-title="Activity 4" id="activity4" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Activity 4: True or False?</h2>
+                    <p class="text-gray-700 mb-6">Read the statements about selling a car and decide if they are true or false.</p>
+                    <div id="true-false-container" class="space-y-5"></div>
+                </section>
+
+                <!-- Page 6: Discussion Topics -->
+                <section data-title="Discussion" class="lesson-page activity-card p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-2xl font-semibold text-teal-800 mb-4">Discussion & Advice</h2>
+                    <p class="text-gray-700 mb-6">Discuss these questions with a partner or in a group. What advice would you give to someone selling a car for the first time?</p>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li>Which is better: selling a car privately or to a reseller? Why?</li>
+                        <li>What is the most important thing to check before you buy a second-hand car?</li>
+                        <li>How can you make sure you get a fair price for your car?</li>
+                        <li>Have you ever bought or sold something second-hand? What was your experience?</li>
+                        <li>What is one piece of advice you would give to a friend to help them avoid a scam when selling something online?</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-10 pb-4">
+            <p class="text-sm text-teal-600">EFL Lesson Plan Generator &copy; 2024</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const vocabulary = [
+            { word: 'Reseller', definition: 'A company that buys things to sell them to other people.' },
+            { word: 'Negotiate', definition: 'To have a formal discussion to reach an agreement.' },
+            { word: 'Scam', definition: 'A dishonest plan for making money.' },
+            { word: 'Test drive', definition: 'A short trip in a car to see if you want to buy it.' },
+            { word: 'Logbook (V5C)', definition: 'An official document that shows who owns the car.' },
+            { word: 'Fair price', definition: 'An amount of money that is reasonable for something.' },
+            { word: 'Hidden damage', definition: 'Problems with the car that are not easy to see.' },
+            { word: 'Advertisement', definition: 'A notice or announcement in a public place promoting something.' },
+            { word: 'Mileage', definition: 'The distance a vehicle has travelled.' },
+            { word: 'Time-waster', definition: 'A person who seems interested but will not actually buy.' }
+        ];
+
+        const describingCars = [
+            { adjective: 'reliable', sentence: "I've had this car for 10 years without any problems. It's very <u>reliable</u>.", definition: 'able to continue to work properly' },
+            { adjective: 'economical', sentence: "This car is extremely <u>economical</u>. I don't need to spend too much money on petrol.", definition: 'not wasting fuel' },
+            { adjective: 'powerful', sentence: "This car is the world's most <u>powerful</u> car.", definition: 'having great strength' },
+            { adjective: 'eco-friendly', sentence: "Smart cars are very <u>eco-friendly</u> — they do not generate any harmful gas emissions.", definition: 'not harmful to the environment' },
+            { adjective: 'affordable', sentence: "The new Honda Civic is a very <u>affordable</u> car. It's much cheaper than similar cars in its class.", definition: 'inexpensive, reasonably priced' }
+        ];
+
+        const gapFillSentences = [
+            { sentence: "You should always check the car's official document, the ______, before buying it.", answer: 'Logbook (V5C)' },
+            { sentence: "Be careful of online buyers who offer too much money; it might be a ______.", answer: 'Scam' },
+            { sentence: "Before you agree on a price, you should try to ______ with the buyer.", answer: 'Negotiate' },
+            { sentence: "The car looked perfect, but a mechanic found ______ under the engine.", answer: 'Hidden damage' },
+            { sentence: "A car with low ______ is usually more valuable.", answer: 'Mileage' }
+        ];
+
+        const trueFalseQuestions = [
+            { statement: "You usually get more money selling to a reseller than selling privately.", answer: false, explanation: "You usually get less money from a reseller because they need to make a profit." },
+            { statement: "It's a good idea to clean your car before showing it to buyers.", answer: true, explanation: "A clean car looks well-maintained and is more attractive to buyers." },
+            { statement: "You should never let a buyer take a test drive alone.", answer: true, explanation: "It's important to go with them for security and insurance reasons." },
+            { statement: "The logbook (V5C) is not an important document.", answer: false, explanation: "The logbook is the legal proof of ownership and is very important." }
+        ];
+        
+        // --- UTILITY ---
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // --- PAGE NAVIGATION ---
+        let pages = [];
+        let navTabs = [];
+
+        function setupNavigation() {
+            pages = document.querySelectorAll('.lesson-page');
+            const navContainer = document.getElementById('tab-navigation');
+            navContainer.innerHTML = ''; // Clear existing tabs
+
+            pages.forEach((page, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'nav-tab';
+                tab.textContent = page.dataset.title;
+                tab.onclick = () => goToPage(index);
+                navContainer.appendChild(tab);
+            });
+            
+            navTabs = document.querySelectorAll('.nav-tab');
+            goToPage(0); // Show the first page initially
+        }
+        
+        function goToPage(index) {
+            pages.forEach((page, i) => {
+                page.classList.toggle('hidden', i !== index);
+            });
+            navTabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+        }
+
+        // --- ACTIVITY 1: MATCHING ---
+        let selectedVocab = null;
+        let selectedDef = null;
+        let correctMatches = 0;
+
+        function setupMatchingActivity() {
+            // Cleanup routine: clear previous elements and state
+            const vocabList = document.getElementById('vocab-list');
+            const definitionList = document.getElementById('definition-list');
+            vocabList.innerHTML = '';
+            definitionList.innerHTML = '';
+            selectedVocab = null;
+            selectedDef = null;
+            correctMatches = 0;
+            document.getElementById('matching-feedback').textContent = '';
+            
+            // Setup new activity
+            const shuffledVocab = shuffleArray([...vocabulary]);
+            const shuffledDefs = shuffleArray([...vocabulary]);
+
+            shuffledVocab.forEach((item) => {
+                const vocabDiv = document.createElement('div');
+                vocabDiv.textContent = item.word;
+                vocabDiv.dataset.word = item.word;
+                vocabDiv.className = 'match-item p-3 bg-white rounded-lg border-2 border-gray-200';
+                vocabDiv.onclick = () => selectVocab(vocabDiv);
+                vocabList.appendChild(vocabDiv);
+            });
+
+            shuffledDefs.forEach((item) => {
+                const defDiv = document.createElement('div');
+                defDiv.textContent = item.definition;
+                defDiv.dataset.word = item.word;
+                defDiv.className = 'match-item p-3 bg-white rounded-lg border-2 border-gray-200';
+                defDiv.onclick = () => selectDef(defDiv);
+                definitionList.appendChild(defDiv);
+            });
+        }
+
+        function selectVocab(element) {
+            if (element.classList.contains('correct')) return;
+            if (selectedVocab) selectedVocab.classList.remove('selected');
+            selectedVocab = element;
+            selectedVocab.classList.add('selected');
+            checkMatch();
+        }
+
+        function selectDef(element) {
+            if (element.classList.contains('correct')) return;
+            if (selectedDef) selectedDef.classList.remove('selected');
+            selectedDef = element;
+            selectedDef.classList.add('selected');
+            checkMatch();
+        }
+
+        function checkMatch() {
+            const feedbackEl = document.getElementById('matching-feedback');
+            if (selectedVocab && selectedDef) {
+                if (selectedVocab.dataset.word === selectedDef.dataset.word) {
+                    selectedVocab.classList.remove('selected');
+                    selectedDef.classList.remove('selected');
+                    selectedVocab.classList.add('correct');
+                    selectedDef.classList.add('correct');
+                    selectedVocab.onclick = null;
+                    selectedDef.onclick = null;
+                    correctMatches++;
+                    feedbackEl.textContent = 'Correct!';
+                    feedbackEl.className = 'mt-4 text-center font-medium text-green-600';
+                } else {
+                    feedbackEl.textContent = 'Not a match. Try again.';
+                    feedbackEl.className = 'mt-4 text-center font-medium text-red-600';
+                    selectedVocab.classList.add('incorrect');
+                    selectedDef.classList.add('incorrect');
+                    setTimeout(() => {
+                        if (selectedVocab) selectedVocab.classList.remove('selected', 'incorrect');
+                        if (selectedDef) selectedDef.classList.remove('selected', 'incorrect');
+                        selectedVocab = null;
+                        selectedDef = null;
+                        feedbackEl.textContent = '';
+                    }, 1000);
+                }
+                if (correctMatches === vocabulary.length) {
+                    feedbackEl.textContent = 'Excellent! You have matched all the words.';
+                }
+            }
+        }
+        
+        function resetMatchingActivity() {
+            setupMatchingActivity();
+        }
+
+        // --- ACTIVITY 2: DESCRIBING CARS ---
+        let selectedSentence = null;
+        let selectedAdjDef = null;
+        let correctAdjMatches = 0;
+
+        function setupDescribingCarsActivity() {
+            // Cleanup routine: clear previous elements and state
+            const sentenceList = document.getElementById('adj-sentence-list');
+            const definitionList = document.getElementById('adj-definition-list');
+            sentenceList.innerHTML = '';
+            definitionList.innerHTML = '';
+            selectedSentence = null;
+            selectedAdjDef = null;
+            correctAdjMatches = 0;
+            document.getElementById('adj-matching-feedback').textContent = '';
+
+            // Setup new activity
+            const shuffledSentences = shuffleArray([...describingCars]);
+            const shuffledDefs = shuffleArray([...describingCars]);
+
+            shuffledSentences.forEach(item => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.innerHTML = item.sentence;
+                sentenceDiv.dataset.adjective = item.adjective;
+                sentenceDiv.className = 'match-item p-3 bg-white rounded-lg border-2 border-gray-200';
+                sentenceDiv.onclick = () => selectSentence(sentenceDiv);
+                sentenceList.appendChild(sentenceDiv);
+            });
+
+            shuffledDefs.forEach(item => {
+                const defDiv = document.createElement('div');
+                defDiv.textContent = item.definition;
+                defDiv.dataset.adjective = item.adjective;
+                defDiv.className = 'match-item p-3 bg-white rounded-lg border-2 border-gray-200';
+                defDiv.onclick = () => selectAdjDef(defDiv);
+                definitionList.appendChild(defDiv);
+            });
+        }
+
+        function selectSentence(element) {
+            if (element.classList.contains('correct')) return;
+            if (selectedSentence) selectedSentence.classList.remove('selected');
+            selectedSentence = element;
+            selectedSentence.classList.add('selected');
+            checkAdjMatch();
+        }
+
+        function selectAdjDef(element) {
+            if (element.classList.contains('correct')) return;
+            if (selectedAdjDef) selectedAdjDef.classList.remove('selected');
+            selectedAdjDef = element;
+            selectedAdjDef.classList.add('selected');
+            checkAdjMatch();
+        }
+
+        function checkAdjMatch() {
+            const feedbackEl = document.getElementById('adj-matching-feedback');
+            if (selectedSentence && selectedAdjDef) {
+                if (selectedSentence.dataset.adjective === selectedAdjDef.dataset.adjective) {
+                    selectedSentence.classList.remove('selected');
+                    selectedAdjDef.classList.remove('selected');
+                    selectedSentence.classList.add('correct');
+                    selectedAdjDef.classList.add('correct');
+                    selectedSentence.onclick = null;
+                    selectedAdjDef.onclick = null;
+                    correctAdjMatches++;
+                    feedbackEl.textContent = 'Correct!';
+                    feedbackEl.className = 'mt-4 text-center font-medium text-green-600';
+                } else {
+                    feedbackEl.textContent = 'Not a match. Try again.';
+                    feedbackEl.className = 'mt-4 text-center font-medium text-red-600';
+                    selectedSentence.classList.add('incorrect');
+                    selectedAdjDef.classList.add('incorrect');
+                    setTimeout(() => {
+                        if(selectedSentence) selectedSentence.classList.remove('selected', 'incorrect');
+                        if(selectedAdjDef) selectedAdjDef.classList.remove('selected', 'incorrect');
+                        selectedSentence = null;
+                        selectedAdjDef = null;
+                        feedbackEl.textContent = '';
+                    }, 1000);
+                }
+                if (correctAdjMatches === describingCars.length) {
+                    feedbackEl.textContent = 'Well done! You matched all the adjectives.';
+                }
+            }
+        }
+
+        // --- ACTIVITY 3: GAP FILL ---
+        function setupGapFill() {
+            const container = document.getElementById('gap-fill-container');
+            container.innerHTML = '';
+            gapFillSentences.forEach((item, index) => {
+                const sentenceHtml = `
+                    <div class="gap-fill-item">
+                        <label for="gap${index}" class="block text-gray-700">
+                            ${index + 1}. ${item.sentence.replace('______', `<input type="text" id="gap${index}" class="mx-2 p-1 border-b-2 border-teal-300 focus:border-teal-500 outline-none bg-transparent w-40">`)}
+                        </label>
+                        <div id="feedback${index}" class="feedback ml-6"></div>
+                    </div>
+                `;
+                container.innerHTML += sentenceHtml;
+            });
+        }
+
+        function checkGapFill() {
+            gapFillSentences.forEach((item, index) => {
+                const input = document.getElementById(`gap${index}`);
+                const feedback = document.getElementById(`feedback${index}`);
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = item.answer.toLowerCase().replace(/\s*\(v5c\)\s*/, '');
+
+                if (userAnswer === correctAnswer || (item.answer === 'Logbook (V5C)' && userAnswer === 'logbook')) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    feedback.textContent = 'Correct!';
+                    feedback.className = 'feedback ml-6 correct';
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                    feedback.textContent = `Not quite. The answer is: ${item.answer}`;
+                    feedback.className = 'feedback ml-6 incorrect';
+                }
+            });
+        }
+
+        // --- ACTIVITY 4: TRUE/FALSE ---
+        function setupTrueFalse() {
+            const container = document.getElementById('true-false-container');
+            container.innerHTML = '';
+            trueFalseQuestions.forEach((item, index) => {
+                const questionHtml = `
+                    <div class="p-4 bg-white rounded-lg border-2 border-gray-200">
+                        <p class="mb-3 text-gray-800">${index + 1}. ${item.statement}</p>
+                        <div class="flex items-center space-x-4">
+                            <button onclick="checkTrueFalse(${index}, true)" class="btn bg-green-500 text-white font-semibold py-1 px-5 rounded-md hover:bg-green-600">True</button>
+                            <button onclick="checkTrueFalse(${index}, false)" class="btn bg-red-500 text-white font-semibold py-1 px-5 rounded-md hover:bg-red-600">False</button>
+                        </div>
+                        <div id="tf-feedback-${index}" class="mt-3 text-sm font-medium"></div>
+                    </div>
+                `;
+                container.innerHTML += questionHtml;
+            });
+        }
+
+        function checkTrueFalse(index, userAnswer) {
+            const question = trueFalseQuestions[index];
+            const feedbackEl = document.getElementById(`tf-feedback-${index}`);
+            const buttons = feedbackEl.previousElementSibling.querySelectorAll('button');
+            
+            buttons.forEach(button => button.disabled = true);
+
+            if (userAnswer === question.answer) {
+                feedbackEl.textContent = `Correct! ${question.explanation}`;
+                feedbackEl.className = 'mt-3 text-sm font-medium text-green-700';
+            } else {
+                feedbackEl.textContent = `Incorrect. ${question.explanation}`;
+                feedbackEl.className = 'mt-3 text-sm font-medium text-red-700';
+            }
+        }
+
+        // --- INITIALIZE ON PAGE LOAD ---
+        document.addEventListener('DOMContentLoaded', () => {
+            setupNavigation();
+            setupMatchingActivity();
+            setupDescribingCarsActivity();
+            setupGapFill();
+            setupTrueFalse();
+        });
+    </script>
+</body>
+</html>
